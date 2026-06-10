@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Inventario de Productos</h2>
+
+  <button class="btn-add" (click)="openCreateForm()" *ngIf="!showForm">
+    + Agregar producto
+  </button>
+
+  <app-product-form
+    *ngIf="showForm"
+    [product]="editingProduct"
+    (save)="onSave($event)"
+    (cancel)="onCancel()">
+  </app-product-form>
+
+  <div *ngIf="products.length === 0 && !showForm" class="empty-msg">
+    No hay productos registrados.
+  </div>
+
+  <table *ngIf="products.length > 0">
+    <thead>
+      <tr>
+        <th>Código de barras</th>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.barcode || '—' }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.price | number:'1.2-2' }}</td>
+        <td class="actions">
+          <button class="btn-edit" (click)="onEdit(product)">Editar</button>
+          <button class="btn-delete" (click)="onDelete(product.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
